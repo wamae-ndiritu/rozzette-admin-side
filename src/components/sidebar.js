@@ -97,11 +97,21 @@ const Sidebar = () => {
             <li className="menu-item">
               <NavLink
                 activeClassName="active"
-                className="menu-link disabled"
+                className="menu-link"
                 to="/sellers"
               >
                 <i className="icon fas fa-store-alt"></i>
                 <span className="text">Sellers</span>
+              </NavLink>
+            </li>
+            <li className="menu-item">
+              <NavLink
+                activeClassName="active"
+                className="menu-link"
+                to="/settings"
+              >
+                <i class="icon fa fa-cog" aria-hidden="true"></i>
+                <span className="text">Settings</span>
               </NavLink>
             </li>
           </ul>

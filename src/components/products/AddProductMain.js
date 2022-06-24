@@ -108,7 +108,7 @@ const AddProductMain = () => {
           setProgress(progress);
         },
         (error) => {
-          console.log(error);
+          //console.log(error);
         },
         async () => {
           await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -158,7 +158,7 @@ const AddProductMain = () => {
                 <div className="card-body">
                   {error && <Message variant="alert-danger">{error}</Message>}
                   {loading && <Loading />}
-                  <div className="alert-danger">
+                  <div>
                     <div className="margin-left">
                       <div className="mb-4">
                         <label htmlFor="product_title" className="form-label">

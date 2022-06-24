@@ -28,6 +28,11 @@ import {
 } from "./Reducers/CategoryReducers";
 
 import { transactionListReducer } from "./Reducers/TransactionReducer";
+import {
+  createSourceReducer,
+  listSourcesReducer,
+  deleteSourceReducer,
+} from "./Reducers/sourceReducer";
 
 const reducer = combineReducers({
   userLogin: userLoginReducer,
@@ -47,6 +52,9 @@ const reducer = combineReducers({
   userDetails: userDetailsReducer,
   userIsAdmin: userIsAdminReducer,
   userOrders: userOrdersReducer,
+  sourceCreate: createSourceReducer,
+  sourcesList: listSourcesReducer,
+  sourceDelete: deleteSourceReducer,
 });
 
 // login

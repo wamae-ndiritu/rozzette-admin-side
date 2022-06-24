@@ -94,10 +94,7 @@ const MainProducts = () => {
                 </div>
                 <hr />
                 {products.map((product) => (
-                  <div
-                    className="prod-items-cont alert-success"
-                    key={product._id}
-                  >
+                  <div className="prod-items-cont" key={product._id}>
                     <div className="prod-items">
                       <div className="prod-image">
                         <div className="prod-image-cont">

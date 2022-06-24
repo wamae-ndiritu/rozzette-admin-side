@@ -35,7 +35,7 @@ const MainCategories = () => {
           </div>
           <div className="card shadow-sm">
             <div className="card-body">
-              <div className="main-category-row alert-danger">
+              <div className="main-category-row">
                 <CreateCategory />
                 <CategoriesTable categories={categories} />
               </div>

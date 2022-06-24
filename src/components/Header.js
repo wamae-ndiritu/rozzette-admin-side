@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import $ from "jquery";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../Redux/Actions/userActions";
 
 const Header = () => {
@@ -25,6 +25,9 @@ const Header = () => {
     });
   }, []);
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -32,25 +35,7 @@ const Header = () => {
   return (
     <header className="main-header navbar">
       <div className="col-search">
-        <form className="searchform">
-          <div className="input-group">
-            <input
-              list="search_terms"
-              type="text"
-              className="form-control"
-              placeholder="Search term"
-            />
-            <button className="btn btn-light bg" type="button">
-              <i className="far fa-search"></i>
-            </button>
-          </div>
-          <datalist id="search_terms">
-            <option value="Products" />
-            <option value="New orders" />
-            <option value="Apple iphone" />
-            <option value="Ahmed Hassan" />
-          </datalist>
-        </form>
+        <h4>Rozzette Dashboard</h4>
       </div>
       <div className="col-nav">
         <button
@@ -72,7 +57,7 @@ const Header = () => {
           </li>
           <li className="nav-item">
             <Link className="nav-link" to="#">
-              English
+              {userInfo.name}
             </Link>
           </li>
           <li className="dropdown nav-item">
@@ -87,7 +72,7 @@ const Header = () => {
               <Link className="dropdown-item" to="/">
                 My profile
               </Link>
-              <Link className="dropdown-item" to="#">
+              <Link className="dropdown-item" to="/settings">
                 Settings
               </Link>
               <Link

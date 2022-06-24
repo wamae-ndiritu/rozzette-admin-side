@@ -2,8 +2,6 @@ import React from "react";
 
 const MonthlyStatistics = () => {
   const year = new Date().getFullYear();
-  const date = new Date();
-  console.log(date);
   return (
     <div className="col-xl-6 col-lg-12">
       <div className="card mb-4 shadow-sm">

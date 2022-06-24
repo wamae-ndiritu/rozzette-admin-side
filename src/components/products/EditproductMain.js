@@ -132,7 +132,7 @@ const EditProductMain = (props) => {
                   ) : error ? (
                     <Message variant="alert-danger">{error}</Message>
                   ) : (
-                    <div className="alert-danger">
+                    <div>
                       <div className="margin-left">
                         <div className="mb-4">
                           <label htmlFor="product_title" className="form-label">

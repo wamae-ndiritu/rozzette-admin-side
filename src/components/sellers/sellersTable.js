@@ -1,16 +1,16 @@
 import React from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { deleteCategory } from "../../Redux/Actions/CategoryActions";
+import { useDispatch } from "react-redux";
+import { deleteSource } from "../../Redux/Actions/sourceActions";
 
-const CategoriesTable = (props) => {
-  const { categories } = props;
+const SellersTable = (props) => {
+  const { sources } = props;
 
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
     if (window.confirm("You are about to delete a category?")) {
-      dispatch(deleteCategory(id));
+      dispatch(deleteSource(id));
     }
   };
 
@@ -20,23 +20,20 @@ const CategoriesTable = (props) => {
         <thead>
           <tr>
             <th>Image</th>
-            <th>Category</th>
+            <th>Source</th>
             <th className="text-end">Action</th>
           </tr>
         </thead>
         {/* Table Data */}
         <tbody>
-          {categories?.map((category) => (
-            <tr key={category._id}>
+          {sources?.map((source) => (
+            <tr key={source._id}>
               <td>
                 <div className="cat-image-cont">
-                  <img
-                    src={category.categoryImage}
-                    alt={category.categoryName}
-                  />
+                  <img src={source.categoryImage} alt={source.name} />
                 </div>
               </td>
-              <td>{category.categoryName}</td>
+              <td>{source.name}</td>
               <td className="text-end">
                 <div className="dropdown">
                   <Link
@@ -49,7 +46,7 @@ const CategoriesTable = (props) => {
                   <div className="dropdown-menu">
                     <Link
                       className="dropdown-item text-danger"
-                      onClick={() => handleDelete(category._id)}
+                      onClick={() => handleDelete(source._id)}
                     >
                       Delete
                     </Link>
@@ -64,4 +61,4 @@ const CategoriesTable = (props) => {
   );
 };
 
-export default CategoriesTable;
+export default SellersTable;

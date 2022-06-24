@@ -1,23 +1,22 @@
+import {
+  CREATE_SOURCE_REQUEST,
+  CREATE_SOURCE_SUCCESS,
+  CREATE_SOURCE_FAIL,
+  GET_SOURCES_REQUEST,
+  GET_SOURCES_FAIL,
+  GET_SOURCES_SUCCESS,
+  DELETE_SOURCE_REQUEST,
+  DELETE_SOURCE_SUCCESS,
+  DELETE_SOURCE_FAIL,
+} from "../Constants/sourceConstants";
 import axios from "axios";
 import { URL } from "../../Url.js";
-import {
-  CATEGORY_LIST_REQUEST,
-  CATEGORY_LIST_SUCCESS,
-  CATEGORY_LIST_FAIL,
-  CATEGORY_CREATE_REQUEST,
-  CATEGORY_CREATE_SUCCESS,
-  CATEGORY_CREATE_FAIL,
-  CATEGORY_DELETE_REQUEST,
-  CATEGORY_DELETE_SUCCESS,
-  CATEGORY_DELETE_FAIL,
-} from "../Constants/CategoryConstants.js";
 import { logout } from "./userActions.js";
 
-//LIST CATEGORIES
-
-export const listCategories = () => async (dispatch, getState) => {
+//CREATE SOURCE
+export const createSource = (name) => async (dispatch, getState) => {
   try {
-    dispatch({ type: CATEGORY_LIST_REQUEST });
+    dispatch({ type: CREATE_SOURCE_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -29,9 +28,9 @@ export const listCategories = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`${URL}/api/category/all`, config);
+    const { data } = await axios.post(`${URL}/api/source/`, { name }, config);
 
-    dispatch({ type: CATEGORY_LIST_SUCCESS, payload: data });
+    dispatch({ type: CREATE_SOURCE_SUCCESS, payload: data });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -40,15 +39,14 @@ export const listCategories = () => async (dispatch, getState) => {
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
-    dispatch({ type: CATEGORY_LIST_FAIL, payload: message });
+    dispatch({ type: CREATE_SOURCE_FAIL, payload: message });
   }
 };
 
-// CREATE CATEGORIES
-
-export const categoryCreate = (category) => async (dispatch, getState) => {
+//ADMIN GET SOURCES
+export const listSources = () => async (dispatch, getState) => {
   try {
-    dispatch({ type: CATEGORY_CREATE_REQUEST });
+    dispatch({ type: GET_SOURCES_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -60,9 +58,9 @@ export const categoryCreate = (category) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`${URL}/api/category/`, category, config);
+    const { data } = await axios.get(`${URL}/api/source/all`, config);
 
-    dispatch({ type: CATEGORY_CREATE_SUCCESS, payload: data });
+    dispatch({ type: GET_SOURCES_SUCCESS, payload: data });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -71,14 +69,14 @@ export const categoryCreate = (category) => async (dispatch, getState) => {
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
-    dispatch({ type: CATEGORY_CREATE_FAIL, payload: message });
+    dispatch({ type: GET_SOURCES_FAIL, payload: message });
   }
 };
 
-//DELETE CATEGORIES
-export const deleteCategory = (id) => async (dispatch, getState) => {
+//ADMIN DELETE SOURCE
+export const deleteSource = (id) => async (dispatch, getState) => {
   try {
-    dispatch({ type: CATEGORY_DELETE_REQUEST });
+    dispatch({ type: DELETE_SOURCE_REQUEST });
 
     const {
       userLogin: { userInfo },
@@ -90,9 +88,9 @@ export const deleteCategory = (id) => async (dispatch, getState) => {
       },
     };
 
-    await axios.delete(`${URL}/api/category/${id}`, config);
+    await axios.delete(`${URL}/api/source/${id}`, config);
 
-    dispatch({ type: CATEGORY_DELETE_SUCCESS });
+    dispatch({ type: DELETE_SOURCE_SUCCESS });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -101,6 +99,6 @@ export const deleteCategory = (id) => async (dispatch, getState) => {
     if (message === "Not authorized, token failed") {
       dispatch(logout());
     }
-    dispatch({ type: CATEGORY_DELETE_FAIL, payload: message });
+    dispatch({ type: DELETE_SOURCE_FAIL, payload: message });
   }
 };

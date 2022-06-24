@@ -7,6 +7,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { toast } from "react-toastify";
+import Toast from "../LoadingError/Toast";
 import app from "../../firebase";
 import {
   categoryCreate,
@@ -42,35 +43,40 @@ const CreateCategory = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const fileName = new Date().getTime() + categoryImage.name;
-    const storage = getStorage(app, bucket_url);
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, categoryImage);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log(progress);
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          const category = {
-            categoryImage: downloadURL,
-            categoryName,
-          };
-          dispatch(categoryCreate(category));
-          dispatch(listCategories());
-        });
-      }
-    );
+    if (categoryName && categoryImage) {
+      const fileName = new Date().getTime() + categoryImage.name;
+      const storage = getStorage(app, bucket_url);
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, categoryImage);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log(progress);
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            const category = {
+              categoryImage: downloadURL,
+              categoryName,
+            };
+            dispatch(categoryCreate(category));
+            dispatch(listCategories());
+          });
+        }
+      );
+    } else {
+      toast.success("Please add a category", ToastObjects);
+    }
   };
 
   return (
     <div className="col-md-12 col-lg-5">
+      <Toast />
       {loading && <Loading />}
       <form className="category-form">
         <div className="mb-4">
