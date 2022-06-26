@@ -13,6 +13,9 @@ import {
   MAKE_ADMIN_REQUEST,
   MAKE_ADMIN_SUCCESS,
   MAKE_ADMIN_FAIL,
+  REMOVE_ADMIN_REQUEST,
+  REMOVE_ADMIN_SUCCESS,
+  REMOVE_ADMIN_FAIL,
 } from "../Constants/UserContants";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -139,7 +142,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 };
 
 // MAKE USER ADMIN
-export const updateUserProfile = (user) => async (dispatch, getState) => {
+export const makeUserAdmin = (id) => async (dispatch, getState) => {
   try {
     dispatch({ type: MAKE_ADMIN_REQUEST });
 
@@ -154,10 +157,8 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`${URL}/api/users/profile`, user, config);
-    dispatch({ type: MAKE_ADMIN_SUCCESS, payload: data });
-
-    localStorage.setItem("userInfo", JSON.stringify(data));
+    await axios.put(`${URL}api/users/add/admin/${id}`, config);
+    dispatch({ type: MAKE_ADMIN_SUCCESS });
   } catch (error) {
     const message =
       error.response && error.response.data.message
@@ -168,6 +169,39 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     }
     dispatch({
       type: MAKE_ADMIN_FAIL,
+      payload: message,
+    });
+  }
+};
+
+// DIRECTOR REMOVE USER ADMIN
+export const removeUserAdmin = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: REMOVE_ADMIN_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.put(`${URL}api/users/remove/admin/${id}`, config);
+    dispatch({ type: REMOVE_ADMIN_SUCCESS });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: REMOVE_ADMIN_FAIL,
       payload: message,
     });
   }

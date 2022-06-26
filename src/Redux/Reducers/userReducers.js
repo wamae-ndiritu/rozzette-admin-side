@@ -2,6 +2,9 @@ import {
   MAKE_ADMIN_FAIL,
   MAKE_ADMIN_REQUEST,
   MAKE_ADMIN_SUCCESS,
+  REMOVE_ADMIN_REQUEST,
+  REMOVE_ADMIN_SUCCESS,
+  REMOVE_ADMIN_FAIL,
   USER_DETAILS_FAIL,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
@@ -69,6 +72,20 @@ export const userIsAdminReducer = (state = {}, action) => {
     case MAKE_ADMIN_SUCCESS:
       return { loading: false, success: true, userInfo: action.payload };
     case MAKE_ADMIN_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+// DIRECTOR REMOVE USER ADMIN
+export const removeIsAdminReducer = (state = {}, action) => {
+  switch (action.type) {
+    case REMOVE_ADMIN_REQUEST:
+      return { loading: true };
+    case REMOVE_ADMIN_SUCCESS:
+      return { loading: false, success: true, userInfo: action.payload };
+    case REMOVE_ADMIN_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

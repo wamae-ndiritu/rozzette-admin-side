@@ -3,7 +3,11 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { listUserOrders } from "../../Redux/Actions/OrderActions";
-import { getUserDetails } from "../../Redux/Actions/userActions";
+import {
+  getUserDetails,
+  makeUserAdmin,
+  removeUserAdmin,
+} from "../../Redux/Actions/userActions";
 import Message from "../LoadingError/Error";
 import Loading from "../LoadingError/Loading";
 
@@ -14,19 +18,49 @@ const UserDetails = (props) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { loading, error, user } = userDetails;
 
+  const userIsAdmin = useSelector((state) => state.userIsAdmin);
+  const { loading: loadingAdmin, error: errorAdmin, success } = userIsAdmin;
+
+  const removeIsAdmin = useSelector((state) => state.removeIsAdmin);
+  const {
+    loading: loadingRemoveAdmin,
+    error: errorRemoveAdmin,
+    success: successRemoveAdmin,
+  } = removeIsAdmin;
+
   const userOrders = useSelector((state) => state.userOrders);
   const { orders } = userOrders;
 
   useEffect(() => {
     dispatch(getUserDetails(userId));
     dispatch(listUserOrders(userId));
-  }, [dispatch, userId]);
+  }, [dispatch, userId, success, successRemoveAdmin]);
+
+  const addAdminHandler = (id) => {
+    dispatch(makeUserAdmin(id));
+  };
+
+  const removeAdminHandler = (id) => {
+    dispatch(removeUserAdmin(id));
+  };
 
   return (
     <section className="content-main">
       <div className="content-header">
         <h2 className="content-title">Customer Info</h2>
       </div>
+      {loadingAdmin ? (
+        <Loading />
+      ) : (
+        errorAdmin && <Message variant="alert-danger">{errorAdmin}</Message>
+      )}
+      {loadingRemoveAdmin ? (
+        <Loading />
+      ) : (
+        errorRemoveAdmin && (
+          <Message variant="alert-danger">{errorRemoveAdmin}</Message>
+        )
+      )}
       <div className="card mb-4">
         {/* Card */}
         {loading ? (
@@ -52,11 +86,17 @@ const UserDetails = (props) => {
                   </div>
                   <div className="user-role">
                     {user.isAdmin ? (
-                      <button className="btn btn-dark col-12">
+                      <button
+                        className="btn btn-dark col-12"
+                        onClick={() => removeAdminHandler(`${user._id}`)}
+                      >
                         REMOVE ADMIN
                       </button>
                     ) : (
-                      <button className="btn btn-success col-12">
+                      <button
+                        className="btn btn-success col-12"
+                        onClick={() => addAdminHandler(`${user._id}`)}
+                      >
                         MAKE ADMIN
                       </button>
                     )}

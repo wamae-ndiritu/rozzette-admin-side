@@ -4,6 +4,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   userDetailsReducer,
   userIsAdminReducer,
+  removeIsAdminReducer,
   userListReducer,
   userLoginReducer,
 } from "./Reducers/userReducers";
@@ -29,6 +30,10 @@ import {
 
 import { transactionListReducer } from "./Reducers/TransactionReducer";
 import {
+  settingsListReducer,
+  stkPushReducer,
+} from "./Reducers/settingsReducer";
+import {
   createSourceReducer,
   listSourcesReducer,
   deleteSourceReducer,
@@ -51,10 +56,13 @@ const reducer = combineReducers({
   transactionList: transactionListReducer,
   userDetails: userDetailsReducer,
   userIsAdmin: userIsAdminReducer,
+  removeIsAdmin: removeIsAdminReducer,
   userOrders: userOrdersReducer,
   sourceCreate: createSourceReducer,
   sourcesList: listSourcesReducer,
   sourceDelete: deleteSourceReducer,
+  settingsList: settingsListReducer,
+  stkPush: stkPushReducer,
 });
 
 // login

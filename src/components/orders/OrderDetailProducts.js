@@ -41,9 +41,20 @@ const OrderDetailProducts = (props) => {
                   />
                 </div>
                 <div className="info">{item.productName}</div>
+                <div className="info">
+                  <p>Size {item.size}</p>
+                  <div
+                    style={{
+                      background: `${item.color}`,
+                      height: "20px",
+                      width: "20px",
+                      borderRadius: "50%",
+                    }}
+                  ></div>
+                </div>
               </Link>
             </td>
-            <td>Ksh {item.price} </td>
+            <td style={{ marginLeft: "5px" }}>Ksh {item.price} </td>
             <td>{item.qty} </td>
             <td className="text-end"> Ksh {item.qty * item.price}</td>
           </tr>
